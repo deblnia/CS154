@@ -1,0 +1,134 @@
+I have read all the instructions, and I agree to the honor code of the exam. 
+
+Put your name here: Deblina Mukherjee (deblina) 
+
+For each question, you do not need to and should not show how you 
+derive the answers.
+
+----------------------------------------
+
+Question 1: (For this question, simply put 'True' or 'False')
+
+1. False
+2. False
+3. True 
+4. False
+5. False
+6. False
+7. False
+8. False
+9. True
+10. True
+11. True
+12. True
+13. True
+14. True
+15. False
+16. True
+17. True
+18. False
+19. True
+20. True 
+
+----------------------------------------
+
+Question 2: (For this question, put 'Yes' or 'No', and put a counterexample if your answer is 'No'; 
+you may use more than one line for the counterexamples if needed)
+
+1. Yes
+
+2. Yes 
+
+3. No 	Counterexample: if x = -15, then x + 0u == -15, and 0u == 0  
+
+4. Yes  
+
+----------------------------------------
+
+Question 3: (For this question, fill in the blanks starting with '0x')
+
+Part A.
+
+    c1: 0x56
+    s1: 0x12
+    s2: 0x34
+    i1: 0x76
+
+Part B.
+
+    c1: 0x76 
+    s1: 0x12
+    s2: 0x34
+    i1: 0x56
+
+----------------------------------------
+
+Question 4: (For this question, calculate the required values, 
+and fill in the blanks starting with '0x')
+
+Part A. 
+
+    Value stored in %r8 after the 1st line =  0x210 
+    Value stored in %r8 after the 2nd line =  0x646
+
+Part B.
+
+    Value stored in %r8 after the 1st line =  0x218
+    Value stored in %r8 after the 3rd line =  0x10
+
+Part C.
+
+    Value stored in %r8 after the 2nd line =  0x228
+    Value stored in %r8 after the 4th line =  0x33C
+
+Part D.
+
+    Value stored in %r8 after the 5th line =  0x0
+
+----------------------------------------
+
+Question 5: (For this question, fill in the blanks with numbers)
+
+Part A. How many times is funcQ called?
+
+    Answer: FuncQ is called 1 times
+
+Part B. What are argument values, x and y, to funcQ when funcQ is called for the first time?
+
+    Answer: x = 2, y = 5
+
+Part C. What is the return value of funcQ when it is called for the first time?
+
+    Answer: Return value of funcQ is 17
+
+Part D. What is the return value of funcP?
+
+    Answer: Return value of funcP is: 17
+
+Part E. What will be the returned value, 
+if the input is long[3][2]x = {{1,6}, {2,3}, {5,4}}?
+
+    Answer: Return value is ___
+
+----------------------------------------
+
+Question 6: (For this question, fill in the blanks. There are 12 blanks in total.)
+
+Part A. ttttttttsb
+
+
+
+Part B. 
+
+Address     Hit/Miss     Value
+ 0x9         HIT         0x49
+
+0x54E        MISS        _____
+
+0x836        MISS        _____
+
+0xABD        MISS        _____
+
+0x831        HIT         0xFE
+
+0xFFF        HIT         0xFF

@@ -1,0 +1,24 @@
+deblina p2bomb grade: 40/40
+bomb301 deblina Thu May 7 15:55 valid
+    Defused:   4
+    Explosion: 0
+    Score:     40
+bomb203 deblina Sat Apr 25 16:19 valid
+    Defused:   0
+    Explosion: 7
+    Score:     -3
+
+###### bomb301 created: Wed Apr 29 10:21:30 2020 ######
+Tue May  5 18:45:10 2020: phase 1 defused: 'The Regenstein Library's new daylight-spectrum lamps help you cs154'
+Wed May  6 20:00:23 2020: phase 2 defused: '2 6 18 53 158 473'
+Wed May  6 20:15:43 2020: phase 3 defused: '3 3418'
+Thu May  7 15:55:28 2020: phase 4 defused: '9 1'
+
+###### bomb203 created: Sat Apr 25 08:31:37 2020 ######
+Sat Apr 25 09:38:02 2020: phase 1 exploded: 'UChicago is like Harvard for smart people.'
+Sat Apr 25 11:18:08 2020: phase 1 exploded: '***truncated***'
+Sat Apr 25 16:12:44 2020: phase 1 exploded: 'You can't expect people to be something they're not'
+Sat Apr 25 16:13:15 2020: phase 1 exploded: 'You can't expect people to be something they're not'
+Sat Apr 25 16:18:54 2020: phase 1 exploded: 'You can't expect people to be something they're not'
+Sat Apr 25 16:19:28 2020: phase 1 exploded: ' "You can't expect people to be something they're not"'
+Sat Apr 25 16:19:50 2020: phase 1 exploded: ' "You can't expect people to be something they're not."'

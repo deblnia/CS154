@@ -1,0 +1,25 @@
+-- PROBLEM 1 -- 
+
+foo = 61440
+
+endian = *((char*)(&foo)); 
+
+This code works because foo in binary is 11110000 00000000. Assuming that the
+size of an int will be 2-bytes, in little endian the last byte is stored first, so foo would be stored as 00000000 11110000. The char* then points to the first of the 2 bytes which, when dereferenced, points to the binary number 00000000, which equals 0 (and means that my system is, in fact, little endian). But if my system was big endian, the pointer would dereference to 11110000 and the if statement would return 1. 
+
+
+-- PROBLEM 2 -- 
+
+A. return !!(x); 
+
+B. return !!(~x); 
+
+C. return !!(x << ((sizeof(int) << 3) - 4); 
+
+D. return !!(x & 0x55555555); 
+
+E. 
+
+
+
+

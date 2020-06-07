@@ -1,0 +1,61 @@
+-- PROBLEM 1 -- 
+
+A. 
+	OUTPUT LINE | PARENT/CHILD | SOURCE LINE | VALUE OF FORKRET 	
+		1   |	P 	   | 	16       | 	0 
+		2   | 	P 	   |	23 	 | 	101
+		3   | 	C          | 	19 	 |  	0 
+		4   |	P  	   | 	8        |	101
+		5   | 	C 	   | 	8 	 |	101 
+		6   |	C	   |    10 	 |      0
+		7   |   P 	   |    26       |      101
+
+
+
+
+B. 
+
+
+	OUTPUT LINE | PARENT/CHILD | SOURCE LINE | VALUE OF FORKRET 	
+		1   |	P 	   | 	16       | 	0 
+		2   | 	P 	   |	23 	 | 	101
+		3   | 	C          | 	19 	 |  	0 
+		4   |	C  	   | 	8        |	0
+		5   |	C	   |    10 	 |      0 
+		6   |   P 	   |    26       |      101
+
+
+
+The race condition that leads to this output instead of part A is in line 25 -- the wait puts the parent to sleep, which lets the child run.  
+
+
+C. 
+
+
+	OUTPUT LINE | PARENT/CHILD | SOURCE LINE | VALUE OF FORKRET 	
+		1   |	P 	   | 	16       | 	0 
+		2   | 	P 	   |	23 	 | 	101
+		3   |	P  	   | 	8        |	101
+		4   | 	P 	   | 	8 	 |	101
+		5   |	P	   |    10 	 |      101 
+
+
+
+The race condition that leads to this output instead of part A is also the wait -- the parent runs instead of the child in this instance.  
+
+
+
+D.
+
+ 
+	OUTPUT LINE | PARENT/CHILD | SOURCE LINE | VALUE OF FORKRET 	
+		1   |	P 	   | 	16       | 	0 
+		2   | 	C          | 	19 	 |  	0 
+		3   |	C  	   | 	8        |	101
+		4   | 	C 	   | 	8 	 |	0 
+		5   |	C	   |    10 	 |      0 
+		6   |   P 	   |    26       |      0
+
+
+
+The race condition that leads to this output instead of part A is ______  

@@ -1,0 +1,31 @@
+-- PROBLEM 1 -- 
+
+A. Yes, there is memory to run P1. It will be loaded into address space 0 - 2, as that is the lowest 
+	possible address from which the 3 continguous MB required by each process can be allocated.   
+
+B. Yes, there is memory to run P2. It will be loaded into address space 5 - 7, as that is the lowest 
+	possible address from which the 3 MB can be allocated, given that address 4 is used. 
+
+C. No, there is no memory to run P3. After addresses 5 - 7, there is no space for a continguous block 
+	of 3 MB (there is only 2 MB of space in between addresses 8 - 9). 
+
+D. 
+	P1 - 2MB 
+	P2 - 1 MB
+	P3 - NO FRAGMENTATION 
+	------------------------
+	3 MB TOTAL INTERNAL FRAGMENTATION 
+
+E. Addresses 3, 8, and 9 represent external fragmentation because they are unallocated and cannot be 
+	used to host processes as they require 3MB of space. 
+
+-- PROBLEM 2 -- 
+
+A. 
+
+	r 0xF4 = 1 | 111 0100 ; 0x13 + 0x74 = 0x9B (SUCCESS)
+	w 0x38 = 0 | 011 1000 ; 0x9A + 0x38 = 0xD2 (ERROR)
+	r 0x12 = 0 | 001 0010 ; 0x9A + 0x12 = 0xAC (SUCCESS)
+
+
+B. 2^7 bytes 

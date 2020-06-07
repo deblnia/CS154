@@ -1,0 +1,246 @@
+#include "cachelab.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <getopt.h> //command line args 
+#include <math.h>
+
+
+//DEFINING STRUCTS 
+
+typedef struct stats {
+  int hit; 
+  int miss;
+  int eviction;
+} stats;
+
+typedef struct parameter {
+  int missc;
+  int set_bits; // set index bits -- 2^set_bits is the number of sets
+  int assoc; // associativity (number of lines per set)
+  int bloc; // number of block bits -- 2^b is the block size 
+  FILE *trace;
+} parameter;
+
+typedef struct line {
+  int valid_bit;
+  int order_visited;
+  unsigned long long tag;
+} line;
+
+typedef struct set { 
+  struct line *lines;
+} set;
+
+typedef struct cache {
+  struct set *sets;
+} cache;
+
+//FUNCTIONS
+
+void stats_initializer(stats *test_stat){
+  test_stat->hit = 0;
+  test_stat->miss = 0;
+  test_stat->eviction = 0;
+}
+
+
+void cache_initializer(cache *cache_inst, parameter *params){
+  int set_count = pow(2,(params->set_bits));
+  int line_count = params->assoc;
+
+  cache_inst->sets = malloc(set_count * sizeof(set));
+
+  for(int i = 0; i < set_count; i++){
+    //make space for size of line
+    cache_inst->sets[i].lines = malloc(line_count*sizeof(line));
+    for(int j = 0; j < line_count; j++){
+      //fill line
+      cache_inst->sets[i].lines[j].valid_bit = 0;
+      cache_inst->sets[i].lines[j].order_visited = 0;
+    }
+  }
+  return ;
+}
+
+void cache_modify(cache *new_cache, stats *new_stats,parameter *new_params, unsigned long long adr, int *visit_order){
+  
+  unsigned long long all_one = (unsigned long long) -1;
+  unsigned long long mask = all_one >> (64 - new_params->set_bits);
+  unsigned long long curr_set = (adr >> new_params->bloc) & mask;
+  unsigned long long curr_tag = (adr >> (new_params->set_bits + new_params->bloc)) & all_one;
+  
+  int i = 0;
+  int hit_flag = 0;
+  while(i < new_params->assoc){
+
+    if(new_cache->sets[curr_set].lines[i].valid_bit == 1 &&
+       new_cache->sets[curr_set].lines[i].tag == curr_tag){
+      // hit 
+
+      new_cache->sets[curr_set].lines[i].order_visited = *visit_order;
+      (*visit_order)++;
+      new_stats->hit ++;
+      hit_flag = 1;
+      if(new_params->missc)
+	printf(" HIT");
+      break;
+    }
+    i++;
+  }
+
+  if(!hit_flag){
+    // miss, eviction also 
+    new_stats->miss ++;
+    if(new_params->missc)
+      printf(" MISS");
+    
+    int eviction_flag = 1;
+    int write_to_index = 0;
+
+    for(int i = 0; i < new_params->assoc; i++){
+      if(new_cache->sets[curr_set].lines[i].valid_bit == 0){
+        eviction_flag = 0;
+        write_to_index = i;
+        break; // need to break! 
+      }
+    }
+
+    if(eviction_flag){
+    //evict 
+
+      int smallest_order = new_cache->sets[curr_set].lines[0].order_visited;
+      int smallest_order_index = 0;
+
+      for(int i = 0; i < new_params->assoc; i++){
+	      if(new_cache->sets[curr_set].lines[i].order_visited < smallest_order){
+	        smallest_order =
+	            new_cache->sets[curr_set].lines[i].order_visited;
+	        smallest_order_index = i;
+	      }
+      }
+      write_to_index = smallest_order_index;
+      if(new_params->missc)
+	    printf(" EVICTION");
+      new_stats->eviction ++;
+    }
+
+    // writing new content
+    new_cache->sets[curr_set].lines[write_to_index].valid_bit = 1;
+    new_cache->sets[curr_set].lines[write_to_index].tag = curr_tag;
+    new_cache->sets[curr_set].lines[write_to_index].order_visited = *visit_order;
+    (*visit_order)++;
+    
+  }
+}
+
+void cache_free(cache *another_cache,parameter *more_params){
+  
+  int num_set = pow(2,more_params->set_bits);
+  
+  for(int i = 0; i < num_set; i++){
+    free(another_cache->sets[i].lines);
+  }
+  free(another_cache->sets);
+  free(another_cache);
+}
+
+//MAIN
+
+int main(int argc, char **argv)
+{
+  parameter *curr_param = malloc(sizeof(parameter));
+  
+  // reading in and storing command-line arguments
+  char *rval = NULL;
+  int c;
+
+  while ((c = getopt(argc, argv, "vs:E:b:t:")) != -1){
+    switch(c)
+      {
+      case 'v':
+        curr_param->missc = 1;
+        break;
+      case 's':
+        curr_param->set_bits = atoi(optarg);
+        break;
+      case 'E':
+        curr_param->assoc = atoi(optarg);
+        break;
+      case 'b':
+        curr_param->bloc = atoi(optarg);
+        break;
+      case 't':
+	rval = optarg;
+        curr_param->trace = fopen(rval,"r");
+        break;
+      //if unclear  
+      case '?':
+        if (optopt == 's' || optopt == 'E' || optopt == 'b' || optopt == 't')
+          printf ("Please provide an argument. \n");
+        else
+          printf ("Please provide a known argument. \n");
+	return 1;
+      default:
+	abort ();
+      }
+  }
+
+  // printing to see if storage successful 
+  printf ("vflag = %d, svalue = %d, evalue = %d, bvalue = %d, tvalue = %s\n",
+	  curr_param->missc, curr_param->set_bits, curr_param->assoc, curr_param->bloc, rval);
+
+  // read in files & record hits and misses
+
+  // init 
+  cache *curr_cache = malloc(sizeof(cache));
+  cache_initializer(curr_cache,curr_param);
+  stats *curr_stats = malloc(sizeof(stats));
+  stats_initializer(curr_stats);
+
+  // actual work 
+  char op_type;
+  unsigned long long addr;
+  int size;
+  int counter = 0;
+  int *visit_order = malloc(sizeof(int));
+  *visit_order = 0;
+  
+  while(fscanf(curr_param->trace," %c %llx,%d",&op_type, &addr, &size) == 3){
+    counter++;
+
+    if(curr_param->missc){
+      printf("%c %llx,%d",op_type,addr,size);
+
+    }
+    switch(op_type){
+    case 'I':
+      break;
+    case 'L':
+      cache_modify(curr_cache,curr_stats,curr_param,addr,visit_order);
+      break;
+    case 'S':
+      cache_modify(curr_cache,curr_stats,curr_param,addr,visit_order);
+      break;
+    case 'M':
+      cache_modify(curr_cache,curr_stats,curr_param,addr,visit_order);
+      cache_modify(curr_cache,curr_stats,curr_param,addr,visit_order);
+      break;
+    default:
+      fprintf(stderr,"ERROR: Invalid Operation.\n");
+    }
+
+    if(curr_param->missc)
+      printf("\n\n");
+  }
+  
+  printSummary(curr_stats->hit, curr_stats->miss, curr_stats->eviction);
+
+  //done
+  cache_free(curr_cache,curr_param);
+  free(curr_stats);
+  fclose(curr_param->trace);
+  free(curr_param);
+  free(visit_order);
+  return 0;
+}

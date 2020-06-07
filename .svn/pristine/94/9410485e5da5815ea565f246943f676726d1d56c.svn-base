@@ -1,0 +1,21 @@
+deblina hw5 grade: 28/31
+
+Graded files from svn revision 54
+
+--------------------------------------
+Question 1 points and comments: 13/16
+close, dup, and brk are not on the list of options
+Graded by: Ethan Mertz (ethanmertz)
+--------------------------------------
+
+Question 2 points and comments: 15/15
+
+%eip must be set before the CPU executes 0xC0015200.
+(avoid words like "go" or "jump")
+because CPU just faithfully executes whatever is pointed by %eip
+
+Graded by: Yifan Liu (liuyifan)
+--------------------------------------
+
+If you believe there is an error in how you were graded, you have a week,
+starting from when this grade was returned, to notify us via email.

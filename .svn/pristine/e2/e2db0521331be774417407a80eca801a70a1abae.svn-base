@@ -1,0 +1,28 @@
+deblina hw1 grade: 14/18
+
+Graded files from svn revision 8
+
+--------------------------------------
+Question 1 points and comments: 8/10
+
+
+ -2 points:    if they made assumption about word size 
+ (e.g. if students explicitly assume the integer to be 4/8/n bytes in their answers)
+
+Ints are typically 4 or 8 bytes. 
+
+If you wantto get the max, you should try bitshifting a 0xF 
+by the (sizeof(int)-1 * 8)
+
+Creative try though! Good luck ;)
+
+Graded by: Anant Matai (amatai)
+--------------------------------------
+
+Question 2 points and comments: 6/8
+Close! For part D, you should be checking odd bits, not even ones (but the idea is right). Note that sizeof(int) gives size in bytes, not bits, for your part E.
+Graded by: Jessica Xia (jessicax)
+--------------------------------------
+
+If you believe there is an error in how you were graded, you have a week,
+starting from when this grade was returned, to notify us via email.

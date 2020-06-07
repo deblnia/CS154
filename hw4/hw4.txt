@@ -1,0 +1,18 @@
+
+-- PROBLEM 1 -- 
+
+
+	A. ttttttttssbb
+
+
+	B. 
+		- READ 	0x833 	Hit 	D0 
+		- READ 	0x00A 	Hit 	4A 
+		- READ 	0x006 	Hit 	46 
+		- READ 	0xFFE 	Hit 	03
+		- READ 	0x54D 	Miss 	unk  
+		- WRITE 0x54E 	Hit	n/a 
+		- WRITE 0x007 	Hit 	n/a 
+		- READ 	0x44C 	Miss 	unk 
+		- READ 	0xFFE 	Miss 	03 
+

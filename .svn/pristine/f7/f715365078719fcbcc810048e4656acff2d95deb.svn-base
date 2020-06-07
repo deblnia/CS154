@@ -1,0 +1,27 @@
+deblina hw3 grade: 15/15
+
+Graded files from svn revision 30
+
+--------------------------------------
+Question 1 points and comments: 10/10
+mask's inital value is 5 not 3 -1pt
+F: +1pt
+Graded by: Ethan Mertz (ethanmertz)
+--------------------------------------
+
+Question 2 points and comments: 5/5
+
+B. We know from "leaq (%rax,%rax,5), %r8" that T is 6. Then, "imulq $60, %rdi,
+%rax" gives ST = 60, so S = 10. Finally, "movq $1440, %rax" indicates the total
+size is 1440, which is 4RST, so we can conclude that R = 6.
+
+In your reasoning, "line 4: %r8 holds the value of (9 * j)", but it should be
+6 * j here.
+
+No points taken off as it's a bonus question
+
+Graded by: Yifan Liu (liuyifan)
+--------------------------------------
+
+If you believe there is an error in how you were graded, you have a week,
+starting from when this grade was returned, to notify us via email.

@@ -1,0 +1,46 @@
+-- PROBLEM 1 -- 
+
+A. 
+
+	- System calls are executed in kernal mode, while library functions are executed in user mode. 
+	- In IA32, library functions use the stack to find parameters, while system calls use registers
+	  to find the parameters of the corresponding system call (starting with %eax) 
+
+B. 
+	
+	LIBRARY	
+	
+	- fclose --> takes in a file stream and closes it while writing any buffered data if the stream
+			was being used for output. Returns 0 if stream is closed, EOF if not. 
+	
+	- fread --> reads in a specified amount of items, each a specified number of bytes long, to
+			the stream pointed to by its file stream parameter 
+
+	- fseek --> takes in a file stream and sets the indicator for that stream (parameters are 
+			position and offset bytes, used to find the new position) 
+	
+	- mblen --> returns the length of a multi-byte character pointed to by the argument str 
+
+	SYSTEM 
+	
+	- fork --> creates a child process of the current parent process (child process has unique
+			pID) 
+
+	- close --> takes a file descriptor (number) closes it 
+	
+	- dup --> takes in a file descriptor and duplicates it 
+
+	- brk --> defines the end of a process's data segment by altering the program break location 
+
+
+-- PROBLEM 2 -- 
+
+A. 
+	EXEC # | EXCEPTION HANDLER ADDRESS 
+	  0    | 0xC0015200 
+B. 
+	Once the program reached "idivl %ebx" at address 0x08031000, it would recognize (thanks to the 
+	that the ALU circuit) that the value is being divided by 0, and then it would fetch exc[0] 
+	which accesses the exception table (with 0 as the exception number), and go to the address 
+	of the exception handler. %eip would then point to 0xC0015200, the adress handler given by 
+	exc[0].   

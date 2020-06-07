@@ -1,0 +1,176 @@
+I have read all the instructions, and I agree to the honor code of the exam. 
+
+Put your name here: Deblina Mukherjee
+
+For each question, you do not need to and should not show how you 
+derive the answers.
+
+----------------------------------------
+
+Question 1 - True or False 
+
+(For this question, simply put 'True' or 'False')
+
+1. False 
+2. False 
+3. True 
+4. True
+5. False  
+6. False 
+7. True
+8. True
+9. False
+10. True
+11. False 
+12. True
+13. False
+14. False 
+15. True 
+16. False
+17. True
+18. True
+19. False
+20. False 
+21. True
+22. False 
+23. False
+24. True 
+25. True 
+26. True 
+27. True
+28. True
+29. False 
+30. False
+31. True
+32. False 
+33. False 
+34. True 
+35. False 
+36. True
+37. True
+38. True
+39. False
+40. True
+
+
+----------------------------------------
+
+Question 2 - Fork, Threads, Sleep, and Wait
+
+(Note: Some lines can be left blank, for example, if you believe 
+the program only have 6 possible outputs, then please just fill 
+the first 6 lines and leave the rest blank)
+
+(Fill the blanks with sequences of numbers, e.g., 1234)
+
+
+1324, 1234
+
+
+----------------------------------------
+
+Question 3 - File Descriptors 
+
+(Fill the blanks with characters)
+
+
+Q1: The first output will be a, b
+
+Q2: The second output will be c, a
+
+Q3: The third output will be a, d
+
+
+----------------------------------------
+
+Question 4 - Base and Bound
+
+A. Is there memory for it? Yes 
+From address 0 to address 1 (Put 'n/a' if you put 'No' for previous question)
+
+B. Is there memory for it? Yes 
+From address 4 to address 6
+
+C. Is there memory for it? No 
+From address NA to address NA
+
+D. Total internal fragmentation is 2 MB
+
+E. Total external fragmentation is 5 MB
+
+----------------------------------------
+
+Question 5 - Segmentation
+
+Part A.
+
+Access &
+Logical       Base      Offset      Physical      Success
+address     (in hex)   (in hex)     address       or Error
+
+w 0x34  =    0x58    +   0x74    =   0xCC          (S)  
+
+w 0x92  =    0x58    +   0x92    =   0x1EA         (E) 
+
+
+Part B. 
+
+The largest possible size of a segment is 2^7 bytes
+
+
+----------------------------------------
+
+Question 6 - Malloc
+
+6.1 The value of pointer p is 0x1FE0 
+
+6.2 The value of pointer r is 0x2048
+
+6.3 The address of A's header is 0x1FDC
+
+6.4 The address of A's footer is 0x2018
+
+6.5 The address of B's header is 0x201C
+
+6.6 The address of B's footer is 0x2040
+
+6.7 The address of C's header is 0x2044
+
+6.8 The address of C's footer is 0x206C
+
+
+----------------------------------------
+
+Question 7 - Variable Sharing
+
+(Fill the blanks with Yes/No)
+
+
+Variable         Referenced        Referenced         Referenced
+instance       by main thread?  by peer thread 0?  by peer thread 1?
+
+cnt.t0              No               	Yes                No 
+
+i.m                Yes           	Yes               Yes
+
+msgs               Yes               	Yes               Yes
+
+myid.t1            No 			No 		  Yes
+
+
+----------------------------------------
+
+Question 8 - Data Race
+
+(Fill the blanks with Yes/No)
+
+
+        is always odd?       is always 945?
+
+prod1       Yes                  Yes
+
+prod2       No                   No
+
+prod3       Yes                  Yes
+
+prod4       Yes                  No

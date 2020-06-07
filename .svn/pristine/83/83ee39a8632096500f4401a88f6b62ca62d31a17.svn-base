@@ -1,0 +1,29 @@
+deblina hw6 grade: 37/40
+
+Graded files from svn revision 72
+
+--------------------------------------
+Question 1 points and comments: 18/20
+
+B. Address range is 6-8 (-1). 
+
+E. 3,4,9 are unusable (not 8). Half points here because you don't actually mention 
+what the external fragmentation is. 
+
+;(
+
+Graded by: Anant Matai (amatai)
+--------------------------------------
+
+Question 2 points and comments: 19/20
+A. 
+-1
+0x13 + 0x74 = 0x87
+
+Be careful of your hex addition. 
+
+Graded by: Olivia Weng (oliviaweng)
+--------------------------------------
+
+If you believe there is an error in how you were graded, you have a week,
+starting from when this grade was returned, to notify us via email.

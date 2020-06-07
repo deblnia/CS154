@@ -1,0 +1,57 @@
+
+-- PROBLEM 1 -- 
+
+A.
+	x = %rdi 
+	n = %rsi 
+	result = %rax 
+	mask = %rdx 
+
+B. 
+	result = 0 
+	mask = 3 
+
+C. 
+	mask != 0 
+
+D. 
+	Mask updated by logically shifting to the left by N 
+
+E. 	
+	Result updated by AND'ing itself to X first, and then OR'ing the 
+	original result value to the updated (AND x) value. 
+
+F. 
+	long loop(long x, long n){ 
+		long result = 0; 
+		long mask; 
+		for (mask =3; mask == 0; mask = mask << n){
+			result = ((mask & x) | result); 
+		} 
+	} 
+
+
+
+-- PROBLEM 2 -- 
+
+A. 
+		
+
+	&(A[i][j][k]) == x_a + L * (T((S * i) + j) + k); 
+
+
+B. 
+
+ 	line 4: %r8 holds the value of (9 * j) 
+	line 5: %rax holds the value of (90 * i) 
+	line 6 -7: %rax stored as ((90i + 9j) + k) 
+	line 8: %rax = A + 4(90i + 9j + k)  
+
+	Setting these values to the address equation in 3A and factoring out 9 gives: 
+	x_a + L * T((S * i) + j) + k) = A + 4 * (9((10 * i) + j) + k)
+	T = 9, S = 10
+	Max array size == 1440, and 1440 / 4 = 360 elements 
+	R * S * T = 360 
+	90 * R = 360 
+	R = 4, S = 10, T = 9 
+

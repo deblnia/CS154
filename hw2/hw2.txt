@@ -1,0 +1,84 @@
+-- PROBLEM 1 -- 
+
+ 
+A. (%rcx) 
+	VALUE = 0x09  
+	MODE = Indirect 
+
+B. 560 
+	VALUE = 0x54 
+	MODE = Absolute
+ 
+C. (%rax, %rsi) 
+	VALUE = 0xbc 
+	MODE  = Indexed 
+
+D. 0x108 (%rdi, %rdx, 0x20) 
+	VALUE = 0x42 
+	MODE = Scaled Index
+
+E. $251 
+	VALUE = 0xFB 
+	MODE = Immediate 
+
+F. (,%rsi, 0x45) 
+	VALUE = 0x42 
+	MODE = Scaled Index 
+
+G. 0x14(%rax) 
+	VALUE = Unknown 
+
+0x14(%rax) == M[%rax + 0x14] == M[0x224], but the value of 0x224 is unknown because the endianness is unknown (placement of 0x9 and 0x42 can change value). 
+
+
+
+
+
+
+-- PROBLEM 2 -- 
+
+A. incq %rsi 
+	DEST = %rsi 
+	VALUE = 0x9 
+
+B. decq (%rax) 
+	DEST = 0x210 
+	VALUE = 0xAA
+
+C. notq %rdx 
+	DEST = %rdx 
+	VALUE = 0xFFFFFFFFFFFFFFFE
+
+D. shlq %rsi, (%rcx)
+	DEST = 0x220 
+	VALUE = 0x900
+
+E. subq $0x100, %rcx 
+	DEST = %rcx 
+	VALUE = 0x120 
+
+F. imulq %rdi, (%rax, %rsi) 
+	DEST = 0x218 
+	VALUE = 0xBC00
+ 
+G. orq (%rcx), %rax 
+	DEST = %rax 
+	VALUE = 0x219 
+
+H. shrq %rdx, (%rsi, 37) 
+	DEST= 0x228 
+	VALUE = 0x21
+
+I. xorq %rbx, %rbx 
+	DEST = %rbx  
+	VALUE = 0x0 
+
+J. subq 0x220, %rdi
+	DEST = %rdi  
+	VALUE = 0xF7 
+
+
+
+
+
+ 

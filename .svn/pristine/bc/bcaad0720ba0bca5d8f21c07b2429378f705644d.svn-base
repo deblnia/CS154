@@ -1,0 +1,292 @@
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <sys/types.h> 
+
+#define MAX_LEN 514
+
+void myPrint(char *msg) 
+{
+    write(STDOUT_FILENO, msg, strlen(msg));
+}
+
+void errorPrint(){
+/* 
+    If a command does not exist or a command is over the length limit 
+*/ 
+    char error_message[30] = "An error has occurred\n"; 
+    write(STDOUT_FILENO, error_message, strlen(error_message)); 
+}
+
+int handle_long_inputs(char *input, int batch_flag, FILE* batch_file) {
+  int long_input = 0;
+  char NEWLINE='\n';
+     if (strlen (input) > 512 && input[512] != NEWLINE) {
+       long_input = 1;
+       char next_char;
+       myPrint(input);
+       if (batch_flag) {
+           next_char = getc(batch_file);
+           while (next_char != NEWLINE) {
+              putchar(next_char);
+              next_char=getc(batch_file);
+           }
+       }
+       else {
+           next_char = getchar();
+           while (next_char != NEWLINE) {
+              putchar(next_char);
+              next_char=getchar();
+           }
+       }
+       putchar (NEWLINE);
+       fflush (stdout); 
+       errorPrint();
+
+     }
+
+  return long_input;
+}
+
+
+void remove_leading_space(char* str){
+/* 
+  removes leading spaces 
+*/ 
+  int index, i;
+
+    index = 0;
+    //find last index 
+    while(str[index] == ' ' || str[index] == '\t' || str[index] == '\n')
+    {
+        index++;
+    }
+    if(index != 0)
+    {
+        //shift 
+        i = 0;
+        while(str[i + index] != '\0')
+        {
+            str[i] = str[i + index];
+            i++;
+        }
+        // null terminated 
+        str[i] = '\0'; 
+    }
+}
+
+int my_cd(char *args){
+/*
+    changes directory
+    args[0] is "cd".  args[1] is the directory.
+    always returns 1, to continue executing.
+ */
+  char* cd_path = strchr(args, ' '); 
+  //if no path or $HOME 
+  if(cd_path == NULL){ 
+    chdir(getenv("HOME"));
+  } else {
+    // go to path 
+    remove_leading_space(cd_path);
+    if(strcmp(cd_path, "$HOME") == 0){
+      chdir(getenv("HOME"));
+    } 
+    if (chdir(cd_path) != 0) {
+        errorPrint();
+    } 
+  } 
+  return 1;
+}
+
+char** split_line(char* pinput, int* num_args) {
+/*  
+    splits line into tokens 
+    returns null terminated array of tokes 
+*/ 
+  int buffsize = MAX_LEN; 
+  int position = 0;
+  char delim[5] = {'\t', '\r', '\n', ';'}; 
+  char **tokens = malloc(buffsize * sizeof(char *));
+  char *token;
+
+  if (!tokens) {
+    errorPrint(); 
+    exit(0);
+  }
+
+  //first tokenize 
+  token = strtok(pinput, delim);
+  
+  //iterate through getting every token 
+  while (token != NULL) {
+    remove_leading_space(token); 
+    tokens[position] = token;
+    position++;
+    //tokenize again 
+    token = strtok(NULL, delim);
+  }
+  tokens[position] = NULL;
+  *num_args = position;
+  return tokens;
+}
+
+char** split_space(char* pinput, int* num_tokens) {
+/*  
+    splits line into tokens 
+    returns null terminated array of tokes 
+*/ 
+  int buffsize = MAX_LEN; 
+  int position = 0;
+  char delim[5] = {' '}; 
+  char **tokens = malloc(buffsize * sizeof(char *));
+  char *token;
+
+  if (!tokens) {
+    exit(0);
+  }
+
+  //first tokenize 
+  token = strtok(pinput, delim);
+  
+  //iterate through getting every token 
+  while (token != NULL) {
+    remove_leading_space(token); 
+    tokens[position] = token;
+    position++;
+    //tokenize again 
+    token = strtok(NULL, delim);
+  }
+  tokens[position] = NULL;
+  *num_tokens = position; 
+  return tokens;
+}
+
+int execute(char **args)
+{
+/*
+  executes 
+  takes null terminated list of arguments (including program)
+  always returns 1, to continue execution.
+*/
+  pid_t pid;
+  int status;
+  pid = fork();
+  if (pid == 0) {
+    // Child process
+    if (execvp(args[0], args) == -1) {
+      errorPrint(); 
+    }
+    exit(0);
+  } else if (pid < 0) {
+    // Error forking
+    errorPrint();
+  } else {
+    // Parent process
+    do {
+      waitpid(pid, &status, WUNTRACED);
+    } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+  }
+  return 1;
+}
+
+int main(int argc, char *argv[]) 
+{
+    char cmd_buff[MAX_LEN];
+    char *pinput;
+    char **args;
+    
+    FILE* batch_file;
+    int batch_flag = 0; 
+    int num_args = 0; 
+
+
+    if(argc == 2){
+        batch_file = fopen(argv[1], "r"); 
+        if(batch_file == NULL){
+          errorPrint(); 
+          exit(0); 
+        }
+        batch_flag = 1; 
+    } 
+
+    
+    while (1) {
+      //BATCH MODE 
+        if(batch_flag){
+          pinput = fgets(cmd_buff, MAX_LEN, batch_file);
+          //exit if no input 
+          if(!pinput){
+            exit(0); 
+          }
+          if (handle_long_inputs(pinput, batch_flag, batch_file)) 
+             continue;
+          myPrint(pinput); 
+          remove_leading_space(pinput); 
+        }else{
+        //INTERACTIVE MODE 
+        myPrint("myshell> ");
+        pinput = fgets(cmd_buff, MAX_LEN, stdin);        
+        //exit if no input 
+        if (!pinput) {
+            errorPrint(); 
+            exit(0);
+        }
+        if (handle_long_inputs(pinput, batch_flag, batch_file)) 
+             continue;
+        } 
+        //PARSE 
+        char* ptr = pinput; 
+        args = split_line(ptr, &num_args); 
+        for(int i =0; i < num_args; i++){
+          
+          //CHECKING FOR BUILT INS 
+          if(strcmp(args[i], "exit") == 0){ 
+            exit(0); 
+          }
+          else if(strstr(args[i], "pwd") != NULL){ 
+            char wd[MAX_LEN]; 
+            int pwd_args = 0; 
+            char **pwd_tokens;
+            pwd_tokens=split_space(args[i], &pwd_args); 
+            if(pwd_args > 1 || strcmp(pwd_tokens[0], "pwd") != 0) {
+              errorPrint(); 
+            }
+            else{
+              myPrint(getcwd(wd, MAX_LEN));
+            }
+          }
+          else if(strstr(args[i], "cd") != NULL){
+            int cd_args = 0;
+            char **cd_tokens;
+            char cd_cmd[514];
+            strcpy(cd_cmd, args[i]);
+            cd_tokens=split_space(cd_cmd, &cd_args); 
+            if (strcmp(cd_tokens[0], "cd") == 0){
+              my_cd(args[i]);
+            }
+            else
+               errorPrint();
+               
+          }
+          else { 
+            //EXECUTION 
+            char **exec_args;
+            int dummy; 
+            //exec_args= malloc (4 * sizeof (char *));
+            exec_args = split_space(args[i], &dummy); 
+            //exec_args[0] = malloc (514 * sizeof (char));
+            //strcpy(exec_args[0], args[i]);
+            //exec_args[1] = NULL;
+            execute(exec_args); 
+            free(exec_args);
+
+          }
+        }
+                      
+    }
+  if(batch_flag){
+    fclose(batch_file); 
+  }
+} 

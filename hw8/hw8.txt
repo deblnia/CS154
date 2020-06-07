@@ -1,0 +1,24 @@
+-- PROBLEM 1 -- 
+
+cnt.t0 | No | Yes | No 
+
+cnt.t1 | No | No | Yes  
+
+i.m | Yes | Yes | Yes 
+
+msgs.m | Yes | Yes | Yes 
+
+myid.t0 | No | Yes | No 
+
+myid.t1 | No | No | Yes 
+
+
+-- PROBLEM 2 -- 
+A. 
+	T1: AB, AC, AD 
+	T2: DC, DB, CD
+
+B. There is no overlap, and therefore also no overlapping order 
+
+C. There is no potential for deadlock 
+
